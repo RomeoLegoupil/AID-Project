@@ -19,3 +19,4 @@ We create 4 dimension tables and 1 fact table into the data warehouse airports_d
 - dim_time : Time dimension for departure and arrival
 - fact_flight : Fact table for flight
 
+
