@@ -2,12 +2,12 @@
 
 ## I - Developing the data warehouse
 
-##### 1. Creation of the airports database
+### 1. Creation of the airports database
 
 Once connected to the MySQL server, we execute the command to create the provided airport database: `source airports.sql`
 
 
-##### 2. Creation of the airports data warehouse
+### 2. Creation of the airports data warehouse
 
 We create 4 dimension tables and 1 fact table into the data warehouse airports_dw :
 - dim_airline : Airline dimension
@@ -75,7 +75,7 @@ CREATE TABLE fact_flight(
 ```
 Then to create the airports data warehouse we execute the following command: `source airports_dw.sql`
 
-## II - Transformations developed in PDI
+### 3. Transformations developed in PDI
 
 #### Airline dimension
 
@@ -176,7 +176,7 @@ Then to create the airports data warehouse we execute the following command: `so
 
 ![fact_flight insert/update](fact_flight09.png)*Figure 30 - fact_flight insert/update window*
 
-## III - XML Code for the cube definition
+### 4. XML Code for the cube definition
 
 ```
 <Schema name="airports_dw">
@@ -231,13 +231,35 @@ Then to create the airports data warehouse we execute the following command: `so
 </Schema>
 ```
 
+### 5. Perfomance of three queries
 
 
+#### First query - passengers and revenue by airline and month
 
 
+#### Second query - 
 
+#### Third query - 
 
+## II - Testing on larger datasets
 
+## III - Improvements
+
+### 1. Performance optimisation
+
+### 2. Precision optimisation
+
+To be more precise on queries, it is possible to replace the time hierarchy by two hierarchies :
+- depature time
+- arrival time
+
+In this case, we can know more information about time flights. For example, we can know the revenue of flights happened between two days.
+
+In the same way, it is possible to replacce the airport hierarchy by two hierarchies :
+- origin airport
+- destination airport
+
+In this case, we can know more information. For example, we can know the number of passengers departing from a certain airport and arriving in a certain airport by month.
 
 
 
