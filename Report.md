@@ -79,102 +79,102 @@ Then to create the airports data warehouse we execute the following command: `so
 
 #### Airline dimension
 
-![dim_airline complete](dim_airline01.png)*Figure 1 - dim_airline entire transformation*
+![dim_airline complete](Images/dim_airline/dim_airline01.png)*Figure 1 - dim_airline entire transformation*
 <br><br>
 
-![dim_airline table input](dim_airline02.png)*Figure 2 - dim_airline table input window*
+![dim_airline table input](Images/dim_airline/dim_airline02.png)*Figure 2 - dim_airline table input window*
 <br><br>
 
-![dim_airline insert/update](dim_airline03.png)*Figure 3 - dim_airline insert/update window*
+![dim_airline insert/update](Images/dim_airline/dim_airline03.png)*Figure 3 - dim_airline insert/update window*
 <br>
 
 #### Airplane dimension
 
-![dim_airline complete](dim_airplane01.png)*Figure 4 - dim_airplane entire transformation*
+![dim_airline complete](Images/dim_airplane/dim_airplane01.png)*Figure 4 - dim_airplane entire transformation*
 <br><br>
 
-![dim_airline table input](dim_airplane02.png)*Figure 5 - dim_airplane table input window*
+![dim_airline table input](Images/dim_airplane/dim_airplane02.png)*Figure 5 - dim_airplane table input window*
 <br><br>
 
-![dim_airline select values](dim_airplane03.png)*Figure 6 - dim_airplane select values window*
+![dim_airline select values](Images/dim_airplane/dim_airplane03.png)*Figure 6 - dim_airplane select values window*
 <br><br>
 
-![dim_airline table input 2](dim_airplane04.png)*Figure 7 - dim_airplane table input 2 window*
+![dim_airline table input 2](Images/dim_airplane/dim_airplane04.png)*Figure 7 - dim_airplane table input 2 window*
 <br><br>
 
-![dim_airline select values 2](dim_airplane05.png)*Figure 8 - dim_airplane select values 2 window*
+![dim_airline select values 2](Images/dim_airplane/dim_airplane05.png)*Figure 8 - dim_airplane select values 2 window*
 <br><br>
 
-![dim_airline join rows](dim_airplane06.png)*Figure 9 - dim_airplane join rows window*
+![dim_airline join rows](Images/dim_airplane/dim_airplane06.png)*Figure 9 - dim_airplane join rows window*
 <br><br>
 
-![dim_airline insert/update](dim_airplane07.png)*Figure 10 - dim_airplane insert/update window*
+![dim_airline insert/update](Images/dim_airplane/dim_airplane07.png)*Figure 10 - dim_airplane insert/update window*
 <br><br>
 
 #### Airport dimension
 
-![dim_airport complete](dim_airport01.png)*Figure 11 - dim_airport entire transformation*
+![dim_airport complete](Images/dim_airport/dim_airport01.png)*Figure 11 - dim_airport entire transformation*
 <br><br>
 
-![dim_airport input table](dim_airport02.png)*Figure 12 - dim_airport input table window*
+![dim_airport input table](Images/dim_airport/dim_airport02.png)*Figure 12 - dim_airport input table window*
 <br><br>
 
-![dim_airport insert/update](dim_airport03.png)*Figure 13 - dim_airport insert/update window*
+![dim_airport insert/update](Images/dim_airport/dim_airport03.png)*Figure 13 - dim_airport insert/update window*
 <br><br>
 
 #### Time dimension
 
-![dim_time complete](dim_time01.png)*Figure 14 - dim_time entire transformation*
+![dim_time complete](Images/dim_time/dim_time01.png)*Figure 14 - dim_time entire transformation*
 <br><br>
 
-![dim_time table input](dim_time02.png)*Figure 15 - dim_time table input window*
+![dim_time table input](Images/dim_time/dim_time02.png)*Figure 15 - dim_time table input window*
 <br><br>
 
-![dim_time calculator](dim_time03.png)*Figure 16 - dim_time calculator window*
+![dim_time calculator](Images/dim_time/dim_time03.png)*Figure 16 - dim_time calculator window*
 <br><br>
 
-![dim_time value mapper](dim_time04.png)*Figure 17 - dim_time value mapper window*
+![dim_time value mapper](Images/dim_time/dim_time04.png)*Figure 17 - dim_time value mapper window*
 <br><br>
 
-![dim_time insert/update](dim_time05.png)*Figure 18 - dim_time insert/update window (departure time)*
+![dim_time insert/update](Images/dim_time/dim_time05.png)*Figure 18 - dim_time insert/update window (departure time)*
 <br><br>
 
-![dim_time calculator2](dim_time06.png)*Figure 19 - dim_time calculator 2 window*
+![dim_time calculator2](Images/dim_time/dim_time06.png)*Figure 19 - dim_time calculator 2 window*
 <br><br>
 
-![dim_time value mapper2](dim_time07.png)*Figure 20 - dim_time value mapper 2 window*
+![dim_time value mapper2](Images/dim_time/dim_time07.png)*Figure 20 - dim_time value mapper 2 window*
 <br><br>
 
-![dim_time insert/update2](dim_time08.png)*Figure 21 - dim_time insert/update 2 window (arrival time)*
+![dim_time insert/update2](Images/dim_time/dim_time08.png)*Figure 21 - dim_time insert/update 2 window (arrival time)*
 <br><br>
 
 #### Flight fact
 
-![fact_flight complete](fact_flight01.png)*Figure 22 - fact_flight entire transformation*
+![fact_flight complete](Images/fact_flight/fact_flight01.png)*Figure 22 - fact_flight entire transformation*
 <br><br>
 
-![fact_flight table input](fact_flight02.png)*Figure 23 - fact_flight table input window*
+![fact_flight table input](Images/fact_flight/fact_flight02.png)*Figure 23 - fact_flight table input window*
 <br><br>
 
-![fact_flight select values](fact_flight03.png)*Figure 24 - fact_flight select values window*
+![fact_flight select values](Images/fact_flight/fact_flight03.png)*Figure 24 - fact_flight select values window*
 <br><br>
 
-![fact_flight table input2](fact_flight04.png)*Figure 25 - fact_flight table input 2 window*
+![fact_flight table input2](Images/fact_flight/fact_flight04.png)*Figure 25 - fact_flight table input 2 window*
 <br><br>
 
-![fact_flight select values2](fact_flight05.png)*Figure 26 - fact_flight select values 2 window*
+![fact_flight select values2](Images/fact_flight/fact_flight05.png)*Figure 26 - fact_flight select values 2 window*
 <br><br>
 
-![fact_flight sort rows](fact_flight06.png)*Figure 27 - fact_flight sort rows window*
+![fact_flight sort rows](Images/fact_flight/fact_flight06.png)*Figure 27 - fact_flight sort rows window*
 <br><br>
 
-![fact_flight group by](fact_flight07.png)*Figure 28 - fact_flight group by window (number of passengers and revenue)*
+![fact_flight group by](Images/fact_flight/fact_flight07.png)*Figure 28 - fact_flight group by window (number of passengers and revenue)*
 <br><br>
 
-![fact_flight join rows](fact_flight08.png)*Figure 29 - fact_flight join rows window*
+![fact_flight join rows](Images/fact_flight/fact_flight08.png)*Figure 29 - fact_flight join rows window*
 <br><br>
 
-![fact_flight insert/update](fact_flight09.png)*Figure 30 - fact_flight insert/update window*
+![fact_flight insert/update](Images/fact_flight/fact_flight09.png)*Figure 30 - fact_flight insert/update window*
 
 ### 4. XML Code for the cube definition
 
