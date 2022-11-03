@@ -1,6 +1,6 @@
 # AID-Project
 
-## I - Developing the data warehouse
+### Group 39,   89436 - Diogo Moniz Pacheco,  105180 - Roméo Paul-Loup Axel Legoupil
 
 ### 1. Creation of the airports database
 
@@ -10,8 +10,9 @@ In airport database, we create a view called <strong>moreperformance</strong> to
 
 
 Here is the query to <strong>moreperformance</strong>:
-
-`create or replace view moreperformance(flight_id, passengernumber, total_receive, airline_id, airplane_id, from, to, departure, arrival) as select b.flight_id, count(passenger_id) as passengernumber, sum(price) as total_receive, airline_id, airplane_id, from, to, departure, arrival from flight as f, booking as b where f.flight_id = b.flight_id group by b.flight_id order by b.flight_id;`
+```
+create or replace view moreperformance(flight_id, passengernumber, total_receive, airline_id, airplane_id, from, to, departure, arrival) as select b.flight_id, count(passenger_id) as passengernumber, sum(price) as total_receive, airline_id, airplane_id, from, to, departure, arrival from flight as f, booking as b where f.flight_id = b.flight_id group by b.flight_id order by b.flight_id;
+```
 
 
 ### 2. Creation of the airports data warehouse
@@ -22,6 +23,8 @@ We create 4 dimension tables and 1 fact table into the data warehouse airports_d
 - dim_airport : Airport dimension for origin and destination
 - dim_time : Time dimension for departure and arrival
 - fact_flight : Fact table for flight
+
+<br><br>
 
 Here is the code:
 
@@ -82,6 +85,8 @@ CREATE TABLE fact_flight(
 ```
 Then to create the airports data warehouse we execute the following command: `source airports_dw.sql`
 
+<br><br><br><br>
+
 ### 3. Transformations developed in PDI
 
 #### Airline dimension
@@ -116,7 +121,7 @@ Then to create the airports data warehouse we execute the following command: `so
 <br><br>
 
 ![dim_airline insert/update](Images/dim_airplane/dim_airplane07.png)*Figure 10 - dim_airplane insert/update window*
-<br><br>
+<br><br><br><br><br><br><br><br>
 
 #### Airport dimension
 
@@ -144,7 +149,7 @@ Then to create the airports data warehouse we execute the following command: `so
 <br><br>
 
 ![dim_time insert/update](Images/dim_time/dim_time05.png)*Figure 18 - dim_time insert/update window*
-<br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br>
 
 #### Flight fact
 
@@ -159,11 +164,9 @@ Then to create the airports data warehouse we execute the following command: `so
 #### Final Job
 
 ![Job](Images/job/job01.png)*Figure 22 - Complete job*
-<br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
-## 4. XML Code for the cube definition
-
-<br>
+### 4. XML Code for the cube definition
 
 ```
 <Schema name="airports_dw">
@@ -229,19 +232,16 @@ Then to create the airports data warehouse we execute the following command: `so
   </Cube>
 </Schema>
 ```
+
+<br><br><br><br>
+
+## 5. Database queries
+
+Query1: passengers and revenue by airline and month (There is not a query because we don't use MDX mode)
+
 <br>
 
-## 5. Small database (airports.sql) queries
-
-<br>
-
-![NormalDBQuery1](Images/NormalDB/PassengerRevenueByMonthAirline.png)*Figure 23 -  Query1: passengers and revenue by airline and month (small database - airports.sql)*
-
-<br>
-
-![NormalDBQuery2](Images/NormalDB/TOP5TotalRevenueAirline.png)*Figure 24 - Query2: Top5 airlines with better revenue (small database - airports.sql)*
-
-Query code top 5 airlines with better revenue:
+Query2 code: Top5 airlines with better revenue
 ```
 SELECT Measures.Members ON COLUMNS,
 TOPCOUNT(Airline.[Name].Members, 5, Measures.TotalRevenue) ON ROWS
@@ -250,9 +250,7 @@ FROM Flights
 
 <br>
 
-![NormalDBQuery3](Images/NormalDB/AveragePriceToGermany.png)*Figure 25 - Query3: Average price per passenger from other countries to germany (small database - airports.sql)*
-
-Query code average price per passenger from other countries to germany:
+Query3 code: Average price per passenger from other countries to germany
 ```
 WITH MEMBER Measures.AveragePricePerTicket AS (Measures.TotalRevenue / Measures.TotalNumberPassengers)
 SELECT Measures.AveragePricePerTicket ON COLUMNS,
@@ -262,11 +260,23 @@ FROM Flights WHERE (DestinationAirport.GERMANY)
 
 <br>
 
-## II -Larger datasets
+###  5.1. Small database (airports.sql) queries
 
 <br>
 
-### 1. Larger database (airports-larger.sql) queries
+![NormalDBQuery1](Images/NormalDB/PassengerRevenueByMonthAirline.png)*Figure 23 -  Query1: passengers and revenue by airline and month (small database - airports.sql)*
+
+<br>
+
+![NormalDBQuery2](Images/NormalDB/TOP5TotalRevenueAirline.png)*Figure 24 - Query2: Top5 airlines with better revenue (small database - airports.sql)*
+
+<br>
+
+![NormalDBQuery3](Images/NormalDB/AveragePriceToGermany.png)*Figure 25 - Query3: Average price per passenger from other countries to germany (small database - airports.sql)*
+
+<br>
+
+### 5.2. Larger database (airports-larger.sql) queries
 
 <br>
 
