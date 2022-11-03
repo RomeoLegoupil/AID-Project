@@ -6,6 +6,13 @@
 
 Once connected to the MySQL server, we execute the command to create the provided airport database: `source airports.sql`
 
+In airport database, we create a view called <strong>moreperformance</strong> to use in the fact_flight transformation to be faster.
+
+
+Here is the query to <strong>moreperformance</strong>:
+
+`create or replace view moreperformance(flight_id, passengernumber, total_receive, airline_id, airplane_id, from, to, departure, arrival) as select b.flight_id, count(passenger_id) as passengernumber, sum(price) as total_receive, airline_id, airplane_id, from, to, departure, arrival from flight as f, booking as b where f.flight_id = b.flight_id group by b.flight_id order by b.flight_id;`
+
 
 ### 2. Creation of the airports data warehouse
 
@@ -127,7 +134,7 @@ Then to create the airports data warehouse we execute the following command: `so
 ![dim_time complete](Images/dim_time/dim_time01.png)*Figure 14 - dim_time entire transformation*
 <br><br>
 
-![dim_time table input](Images/dim_time/dim_time02.png)*Figure 15 - dim_time table input window*
+![dim_time table input](Images/dim_time/dim_time02.png)*Figure 15 - dim_time table input window (union between departures and arrivals)* 
 <br><br>
 
 ![dim_time calculator](Images/dim_time/dim_time03.png)*Figure 16 - dim_time calculator window*
@@ -136,47 +143,27 @@ Then to create the airports data warehouse we execute the following command: `so
 ![dim_time value mapper](Images/dim_time/dim_time04.png)*Figure 17 - dim_time value mapper window*
 <br><br>
 
-![dim_time insert/update](Images/dim_time/dim_time05.png)*Figure 18 - dim_time insert/update window (departure time)*
-<br><br>
-
-![dim_time calculator2](Images/dim_time/dim_time06.png)*Figure 19 - dim_time calculator 2 window*
-<br><br>
-
-![dim_time value mapper2](Images/dim_time/dim_time07.png)*Figure 20 - dim_time value mapper 2 window*
-<br><br>
-
-![dim_time insert/update2](Images/dim_time/dim_time08.png)*Figure 21 - dim_time insert/update 2 window (arrival time)*
+![dim_time insert/update](Images/dim_time/dim_time05.png)*Figure 18 - dim_time insert/update window*
 <br><br>
 
 #### Flight fact
 
-![fact_flight complete](Images/fact_flight/fact_flight01.png)*Figure 22 - fact_flight entire transformation*
+![fact_flight complete](Images/fact_flight/fact_flight01.png)*Figure 19 - fact_flight entire transformation*
 <br><br>
 
-![fact_flight table input](Images/fact_flight/fact_flight02.png)*Figure 23 - fact_flight table input window*
+![fact_flight table input](Images/fact_flight/fact_flight02.png)*Figure 20 - fact_flight table input window (Here we use the view moreperformance to be faster in the largest databases)*
 <br><br>
 
-![fact_flight select values](Images/fact_flight/fact_flight03.png)*Figure 24 - fact_flight select values window*
+![fact_flight insert/update](Images/fact_flight/fact_flight03.png)*Figure 21 - fact_flight insert/update window*
+
+#### Final Job
+
+![Job](Images/job/job01.png)*Figure 22 - Complete job*
 <br><br>
 
-![fact_flight table input2](Images/fact_flight/fact_flight04.png)*Figure 25 - fact_flight table input 2 window*
-<br><br>
+## 4. XML Code for the cube definition
 
-![fact_flight select values2](Images/fact_flight/fact_flight05.png)*Figure 26 - fact_flight select values 2 window*
-<br><br>
-
-![fact_flight sort rows](Images/fact_flight/fact_flight06.png)*Figure 27 - fact_flight sort rows window*
-<br><br>
-
-![fact_flight group by](Images/fact_flight/fact_flight07.png)*Figure 28 - fact_flight group by window (number of passengers and revenue)*
-<br><br>
-
-![fact_flight join rows](Images/fact_flight/fact_flight08.png)*Figure 29 - fact_flight join rows window*
-<br><br>
-
-![fact_flight insert/update](Images/fact_flight/fact_flight09.png)*Figure 30 - fact_flight insert/update window*
-
-### 4. XML Code for the cube definition
+<br>
 
 ```
 <Schema name="airports_dw">
@@ -191,15 +178,27 @@ Then to create the airports data warehouse we execute the following command: `so
         </Level>
       </Hierarchy>
     </Dimension>
-    <Dimension type="StandardDimension" visible="true" foreignKey="DESTINATION_AIRPORT_ID" highCardinality="false" name="Airport">
-      <Hierarchy name="Airport Hierarchy" visible="true" hasAll="true" allMemberName="All Airports" primaryKey="AIRPORT_ID">
+    <Dimension type="StandardDimension" visible="true" foreignKey="ORIGIN_AIRPORT_ID" highCardinality="false" name="OriginAirport">
+      <Hierarchy name="Origin Airport Hierarchy" visible="true" hasAll="true" allMemberName="All Origin Airports" primaryKey="AIRPORT_ID">
         <Table name="dim_airport">
         </Table>
-        <Level name="Country" visible="true" column="COUNTRY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        <Level name="OriginCountry" visible="true" column="COUNTRY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-        <Level name="City" visible="true" column="CITY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        <Level name="OriginCity" visible="true" column="CITY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
-	<Level name="Name" visible="true" column="AIRPORT_NAME" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+	<Level name="OriginName" visible="true" column="AIRPORT_NAME" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="DESTINATION_AIRPORT_ID" highCardinality="false" name="DestinationAirport">
+      <Hierarchy name="Destination Airport Hierarchy" visible="true" hasAll="true" allMemberName="All Destination Airports" primaryKey="AIRPORT_ID">
+        <Table name="dim_airport">
+        </Table>
+        <Level name="DestinationCountry" visible="true" column="COUNTRY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="DestinationCity" visible="true" column="CITY" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+	<Level name="DestinationName" visible="true" column="AIRPORT_NAME" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
         </Level>
       </Hierarchy>
     </Dimension>
@@ -223,43 +222,87 @@ Then to create the airports data warehouse we execute the following command: `so
         </Level>
       </Hierarchy>
     </Dimension>
-    <Measure name="NumPassengers" column="PASSENGERS_NUMBER" datatype="Integer" formatString="#,###" aggregator="sum" visible="true">
+    <Measure name="TotalNumberPassengers" column="PASSENGERS_NUMBER" datatype="Integer" formatString="#,###" aggregator="sum" visible="true">
     </Measure>
-    <Measure name="TotalReceive" column="RECEIVE_TOTAL" datatype="Numeric" formatString="$ #,###.00" aggregator="sum" visible="true">
+    <Measure name="TotalRevenue" column="RECEIVE_TOTAL" datatype="Numeric" formatString="$ #,###.00" aggregator="sum" visible="true">
     </Measure>
   </Cube>
 </Schema>
 ```
+<br>
 
-### 5. Perfomance of three queries
+## 5. Small database (airports.sql) queries
 
+<br>
 
-#### First query - passengers and revenue by airline and month
+![NormalDBQuery1](Images/NormalDB/PassengerRevenueByMonthAirline.png)*Figure 23 -  Query1: passengers and revenue by airline and month (small database - airports.sql)*
 
+<br>
 
-#### Second query - 
+![NormalDBQuery2](Images/NormalDB/TOP5TotalRevenueAirline.png)*Figure 24 - Query2: Top5 airlines with better revenue (small database - airports.sql)*
 
-#### Third query - 
+Query code top 5 airlines with better revenue:
+```
+SELECT Measures.Members ON COLUMNS,
+TOPCOUNT(Airline.[Name].Members, 5, Measures.TotalRevenue) ON ROWS
+FROM Flights
+```
 
-## II - Testing on larger datasets
+<br>
 
-## III - Improvements
+![NormalDBQuery3](Images/NormalDB/AveragePriceToGermany.png)*Figure 25 - Query3: Average price per passenger from other countries to germany (small database - airports.sql)*
 
-### 1. Performance optimisation
+Query code average price per passenger from other countries to germany:
+```
+WITH MEMBER Measures.AveragePricePerTicket AS (Measures.TotalRevenue / Measures.TotalNumberPassengers)
+SELECT Measures.AveragePricePerTicket ON COLUMNS,
+ORDER(OriginAirport.OriginCountry.Members, Measures.AveragePricePerTicket, DESC) ON ROWS 
+FROM Flights WHERE (DestinationAirport.GERMANY)
+```
 
-### 2. Precision optimisation
+<br>
 
-To be more precise on queries, it is possible to replace the time hierarchy by two hierarchies :
-- depature time
-- arrival time
+## II -Larger datasets
 
-In this case, we can know more information about time flights. For example, we can know the revenue of flights happened between two days.
+<br>
 
-In the same way, it is possible to replacce the airport hierarchy by two hierarchies :
-- origin airport
-- destination airport
+### 1. Larger database (airports-larger.sql) queries
 
-In this case, we can know more information. For example, we can know the number of passengers departing from a certain airport and arriving in a certain airport by month.
+<br>
+
+![LargerDBQuery1P1](Images/LargeDB/PassengersRevenueByMonthArline01_large.png)*Figure 26 -  Query1: passengers and revenue by airline and month pt1 (larger database - airports-larger.sql)*
+
+<br>
+
+![LargerDBQuery1P2](Images/LargeDB/PassengersRevenueByMonthArline02_large.png)*Figure 27 -  Query1: passengers and revenue by airline and month pt2 (larger database - airports-larger.sql)*
+
+<br>
+
+![LargerDBQuery1P3](Images/LargeDB/PassengersRevenueByMonthArline03_large.png)*Figure 28 -  Query1: passengers and revenue by airline and month pt3 (larger database - airports-larger.sql)*
+
+<br>
+
+![LargerDBQuery1P4](Images/LargeDB/PassengersRevenueByMonthArline04_large.png)*Figure 29 -  Query1: passengers and revenue by airline and month pt4 (larger database - airports-larger.sql)*
+
+<br>
+
+![LargerDBQuery2P1](Images/LargeDB/TOP5AirlinesRevenue.png)*Figure 30 - Query2: Top5 airlines with better revenue (larger database - airports-larger.sql)*
+
+<br>
+
+![NormalDBQuery3P1](Images/LargeDB/AveragePriceToGermany01_largedb.png)*Figure 31 - Query3: Average price per passenger from other countries to germany pt1 (larger database - airports-larger.sql)*
+
+<br>
+
+![NormalDBQuery3P2](Images/LargeDB/AveragePriceToGermany02_largedb.png)*Figure 32 - Query3: Average price per passenger from other countries to germany pt2 (larger database - airports-larger.sql)*
+
+<br>
+
+![NormalDBQuery3P3](Images/LargeDB/AveragePriceToGermany03_largedb.png)*Figure 33 - Query3: Average price per passenger from other countries to germany pt3 (larger database - airports-larger.sql)*
+
+<br>
+
+![NormalDBQuery3P4](Images/LargeDB/AveragePriceToGermany04_largedb.png)*Figure 34 - Query3: Average price per passenger from other countries to germany pt4 (larger database - airports-larger.sql)*
 
 
 
